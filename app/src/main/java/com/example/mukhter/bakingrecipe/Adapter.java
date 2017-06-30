@@ -80,6 +80,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder>   {
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     RecipeCardModel recipe = recipeCardArrayList.get(getAdapterPosition());
+
                     Intent intent = new Intent(context, RecipeStepActivity.class);
                     intent.putExtra("key", recipe);
                     context.startActivity(intent);

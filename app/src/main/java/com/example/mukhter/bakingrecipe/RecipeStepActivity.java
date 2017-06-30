@@ -20,6 +20,9 @@ RecyclerView recyclerStepView;
     RecipeCardModel recipeCardModel;
     String ingredient;
     TextView ingred;
+    private ArrayList<RecipeCardModel>recipeCardArrayList;
+    RecipeCardModel pop;
+    RecipeStepModel pop2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +37,12 @@ RecyclerView recyclerStepView;
 ingred=(TextView)findViewById(R.id.textingredients);
         Intent intent = getIntent();
 
-        RecipeCardModel pop = intent.getParcelableExtra("key");
-        String inggredients = pop.getIngredient();
+         pop = intent.getParcelableExtra("key");
         String quantity =pop.getQuantity();
         String measure =pop.getMeasure();
-        ingred.setText(inggredients+measure);
-        Log.i("",inggredients);
+        ingred.setText(quantity+measure);
+
+
 
     }
 

@@ -52,9 +52,11 @@ RecyclerView recipeRecyclerView;
                 url, null,
                 new Response.Listener<JSONArray>() {
                     ArrayList<RecipeCardModel> arrayList =new ArrayList<>();
+                    ArrayList<RecipeStepModel> arrayListstep =new ArrayList<>();
                     @Override
                     public void onResponse(JSONArray response) {
                         RecipeCardModel recipeCardModel;
+                        RecipeStepModel recipeStepModel=new RecipeStepModel();
 
                         try {
                             String res = response.toString();
@@ -69,6 +71,17 @@ RecyclerView recipeRecyclerView;
                                      Log.i("TITLE",title);
 
                                     JSONArray ingredient = jobj.getJSONArray("ingredients");
+
+                                for(int j=0;j<ingredient.length();j++){
+                                      recipeStepModel =new RecipeStepModel();
+                                    JSONObject jobj2 = ingredient.getJSONObject(j);
+
+                                    String measure = jobj2.getString("measure");
+                                    recipeCardModel.setMeasure(measure);
+                                    String quantity =jobj2.getString("quantity");
+                                    recipeCardModel.setQuantity(quantity);
+
+                                }
                                      Log.i("INGREDIENT",ingredient.toString());
 
 
@@ -81,6 +94,7 @@ RecyclerView recipeRecyclerView;
 
 
                             }
+
 
                             recipeRecyclerView = (RecyclerView) findViewById(R.id.cardList);
                             recipeRecyclerView.setHasFixedSize(true);

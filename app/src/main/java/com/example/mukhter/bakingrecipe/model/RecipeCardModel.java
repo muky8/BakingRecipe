@@ -3,6 +3,8 @@ package com.example.mukhter.bakingrecipe.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by MUKHTER on 17/06/2017.
  */
@@ -16,6 +18,7 @@ public class RecipeCardModel implements Parcelable{
     String measure;
     String quantity;
 
+    public ArrayList<RecipeStepModel> receipeIngredientList = new ArrayList<>();
 
     public RecipeCardModel() {
         super();
@@ -47,9 +50,6 @@ public class RecipeCardModel implements Parcelable{
         return image;
     }
 
-    public String getIngredient() {
-        return ingredient;
-    }
 
     public String getMeasure() {
         return measure;
