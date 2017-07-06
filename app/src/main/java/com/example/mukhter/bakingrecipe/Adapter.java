@@ -23,13 +23,13 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder>   {
- private ArrayList<RecipeCardModel>recipeCardArrayList;
+    private ArrayList<RecipeCardModel>recipeCardArrayList;
 
     private int[]image ={
-      R.drawable.recipes
+            R.drawable.recipes
     };
     private String[]titles ={
-          "Recipe"
+            "Recipe"
     };
     Context context;
 
@@ -44,7 +44,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder>   {
         View itemView = LayoutInflater.
                 from(parent.getContext()).
                 inflate(R.layout.card_layout, parent, false);
-       Viewholder view = new Viewholder(itemView);
+        Viewholder view = new Viewholder(itemView);
         return view;
     }
 
@@ -79,17 +79,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder>   {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    RecipeCardModel recipe = recipeCardArrayList.get(getAdapterPosition());
-
+                    RecipeCardModel recipe = recipeCardArrayList.get(position);
                     Intent intent = new Intent(context, RecipeStepActivity.class);
-                    intent.putExtra("key", recipe);
+
+                    intent.putExtra("quantity",recipe.getmIngredients());
                     context.startActivity(intent);
                     Snackbar.make(v, "Click detected on item " + position,
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+
                 }
             });
-    }
+        }
 
 
     }

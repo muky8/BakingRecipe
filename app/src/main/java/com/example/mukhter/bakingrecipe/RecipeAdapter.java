@@ -5,11 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
-import com.example.mukhter.bakingrecipe.model.RecipeStepModel;
 
 import java.util.ArrayList;
 
@@ -41,22 +39,27 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(RecipeViewholder holder, int position) {
-        holder.retitle.setText(titles[0]);
+        RecipeViewholder myHolder= (RecipeViewholder) holder;
+
+        RecipeCardModel current=recipeStepArrayList.get(position);
+        myHolder.title.setText((CharSequence) current.getmInstructions());
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 15;
+
+        return recipeStepArrayList.size();
     }
 
 
 
     public class RecipeViewholder extends RecyclerView.ViewHolder{
-        TextView retitle;
+        TextView title;
         public RecipeViewholder(View itemView) {
             super(itemView);
-            retitle = (TextView)itemView.findViewById(R.id.recipestep);
+            title = (TextView)itemView.findViewById(R.id.recipestep);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

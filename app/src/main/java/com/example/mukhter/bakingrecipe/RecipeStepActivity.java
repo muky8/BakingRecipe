@@ -9,38 +9,45 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
-import com.example.mukhter.bakingrecipe.model.RecipeStepModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeStepActivity extends AppCompatActivity {
-RecyclerView recyclerStepView;
+    RecyclerView recyclerStepView;
     RecipeAdapter recipeAdapter;
     ArrayList<RecipeCardModel>recipeStepModels;
+    ArrayList<RecipeCardModel.RecipeInstructionModel>recipeInstructionModels;
     RecipeCardModel recipeCardModel;
     String ingredient;
     TextView ingred;
     private ArrayList<RecipeCardModel>recipeCardArrayList;
+
+    private ArrayList<RecipeCardModel.RecipeStepModel> mIngredients = new ArrayList<>();
     RecipeCardModel pop;
-    RecipeStepModel pop2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
         recipeStepModels = new ArrayList<>();
+        recipeInstructionModels=new ArrayList<>();
         recyclerStepView = (RecyclerView) findViewById(R.id.cardStepList);
         recyclerStepView.setHasFixedSize(true);
         LinearLayoutManager mlayoutManager = new LinearLayoutManager(RecipeStepActivity.this);
         recyclerStepView.setLayoutManager(mlayoutManager);
         recipeAdapter= new RecipeAdapter(recipeStepModels);
         recyclerStepView.setAdapter(recipeAdapter);
-ingred=(TextView)findViewById(R.id.textingredients);
+        ingred=(TextView)findViewById(R.id.textingredients);
         Intent intent = getIntent();
+        mIngredients =intent.getParcelableArrayListExtra("quantity");
 
-         pop = intent.getParcelableExtra("key");
-        String quantity =pop.getQuantity();
-        String measure =pop.getMeasure();
-        ingred.setText(quantity+measure);
+        StringBuilder ingredientsDetail = new StringBuilder("Ingredients: \n");
+        for (RecipeCardModel.RecipeStepModel bakingIngredient : mIngredients) {
+            String q= bakingIngredient.getIngredient();
+            ingredientsDetail.append(q.toString() + "\n");
+        }
+
+        ingred.setText(ingredientsDetail.toString());
 
 
 
