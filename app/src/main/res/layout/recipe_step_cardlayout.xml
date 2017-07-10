@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginLeft="2dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         card_view:cardCornerRadius="10dp"
         card_view:contentPadding="4dp">
 
@@ -28,6 +29,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="50dp"
+                android:textColor="#b69b4c"
                 tools:text="Recipe Steps"
                 android:textSize="20sp"
 

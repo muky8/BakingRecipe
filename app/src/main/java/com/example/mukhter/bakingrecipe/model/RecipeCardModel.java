@@ -9,10 +9,10 @@ import java.util.ArrayList;
  * Created by MUKHTER on 17/06/2017.
  */
 
-public class RecipeCardModel implements Parcelable{
+public class RecipeCardModel implements Parcelable {
 
-   public String image;
-   public String title;
+    public String image;
+    public String title;
     public String id;
 
 
@@ -26,7 +26,7 @@ public class RecipeCardModel implements Parcelable{
     private RecipeCardModel(Parcel parcel) {
         image = parcel.readString();
         title = parcel.readString();
-        id =parcel.readString();
+        id = parcel.readString();
     }
 
     public static final Parcelable.Creator<RecipeCardModel> CREATOR = new Parcelable.Creator<RecipeCardModel>() {
@@ -48,6 +48,7 @@ public class RecipeCardModel implements Parcelable{
     public void setReceipeIngredientList(ArrayList<RecipeStepModel> mIngredients) {
         this.mIngredients = mIngredients;
     }
+
     public ArrayList<RecipeInstructionModel> getmInstructions() {
         return mInstructions;
     }
@@ -80,10 +81,12 @@ public class RecipeCardModel implements Parcelable{
     public void setId(String id) {
         this.id = id;
     }
+
     @Override
     public int describeContents() {
         return 0;
     }
+
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(image);
@@ -95,26 +98,25 @@ public class RecipeCardModel implements Parcelable{
      * Created by MUKHTER on 24/06/2017.
      */
 
-    public static class RecipeStepModel implements Parcelable{
+    public static class RecipeStepModel implements Parcelable {
         String quantity;
         String measure;
         String ingredient;
 
 
-
-
-        public RecipeStepModel(String quantity,String measure,String ingredient  ) {
-            this.quantity=quantity;
-            this.measure=measure;
-            this.ingredient=ingredient;
+        public RecipeStepModel(String quantity, String measure, String ingredient) {
+            this.quantity = quantity;
+            this.measure = measure;
+            this.ingredient = ingredient;
 
 
         }
+
         private RecipeStepModel(Parcel parcel) {
 
-            ingredient=parcel.readString();
-            measure=parcel.readString();
-            quantity=parcel.readString();
+            ingredient = parcel.readString();
+            measure = parcel.readString();
+            quantity = parcel.readString();
         }
 
         public static final Creator<RecipeStepModel> CREATOR = new Creator<RecipeStepModel>() {
@@ -158,6 +160,7 @@ public class RecipeCardModel implements Parcelable{
         public int describeContents() {
             return 0;
         }
+
         @Override
         public void writeToParcel(Parcel parcel, int flags) {
 
@@ -167,27 +170,23 @@ public class RecipeCardModel implements Parcelable{
         }
 
 
-
-
     }
 
     /**
      * Created by MUKHTER on 06/07/2017.
      */
 
-    public static class RecipeInstructionModel  implements Parcelable{
+    public static class RecipeInstructionModel implements Parcelable {
         String id;
         String shortDescription;
         String description;
         String videoURL;
         String thumbnailURL;
 
-        public RecipeInstructionModel(String id, String shortDescription, String description, String videoURL, String thumbnailURL) {
-            this.id = id;
-            this.shortDescription = shortDescription;
-            this.description = description;
-            this.videoURL = videoURL;
-            this.thumbnailURL = thumbnailURL;
+        private ArrayList<RecipeInstructionModel> mvideoUrl;
+
+        public RecipeInstructionModel() {
+
         }
 
         protected RecipeInstructionModel(Parcel in) {
@@ -196,6 +195,14 @@ public class RecipeCardModel implements Parcelable{
             description = in.readString();
             videoURL = in.readString();
             thumbnailURL = in.readString();
+        }
+
+        public ArrayList<RecipeInstructionModel> getMvideoUrl() {
+            return mvideoUrl;
+        }
+
+        public void setMvideoUrl(ArrayList<RecipeInstructionModel> mvideoUrl) {
+            this.mvideoUrl = mvideoUrl;
         }
 
         public static final Creator<RecipeInstructionModel> CREATOR = new Creator<RecipeInstructionModel>() {
@@ -209,6 +216,7 @@ public class RecipeCardModel implements Parcelable{
                 return new RecipeInstructionModel[size];
             }
         };
+
 
         public String getId() {
             return id;
