@@ -1,10 +1,16 @@
 package com.example.mukhter.bakingrecipe.ui;
 
+import android.app.FragmentManager;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.androidnetworking.AndroidNetworking;
+import com.example.mukhter.bakingrecipe.RecipeStepFragment;
 import com.example.mukhter.bakingrecipe.adapter.Adapter;
 import com.example.mukhter.bakingrecipe.R;
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
@@ -29,20 +36,26 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     Adapter adapter;
     ArrayList<RecipeCardModel> arrayList;
+
+    ArrayList<RecipeCardModel.RecipeInstructionModel> arrayList2 = new ArrayList<>();
+
     ArrayList<RecipeCardModel.RecipeStepModel> stepModelArrayList;
     String id;
     public String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
     RecyclerView recipeRecyclerView;
+    private boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         AndroidNetworking.initialize(getApplicationContext());
         fetch();
-    }
 
+
+    }
 
     void fetch() {
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
@@ -123,9 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                             recipeRecyclerView = (RecyclerView) findViewById(R.id.cardList);
-                            recipeRecyclerView.setHasFixedSize(true);
-                            LinearLayoutManager mlayoutManager = new LinearLayoutManager(MainActivity.this);
-                            recipeRecyclerView.setLayoutManager(mlayoutManager);
+                            recipeRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
 
                             adapter = new Adapter(MainActivity.this, arrayList, arrayList2);
 

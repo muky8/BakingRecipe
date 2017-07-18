@@ -10,6 +10,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,10 @@ import android.widget.TextView;
 
 import com.example.mukhter.bakingrecipe.R;
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
+import com.example.mukhter.bakingrecipe.ui.ExoplayerActivity;
+import com.example.mukhter.bakingrecipe.ui.ExoplayerFragment;
+import com.example.mukhter.bakingrecipe.ui.MainActivity;
+import com.example.mukhter.bakingrecipe.ui.RecipeStepActivity;
 
 
 public class CustomAdapter extends ArrayAdapter<RecipeCardModel.RecipeInstructionModel> {

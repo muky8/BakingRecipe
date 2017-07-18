@@ -5,9 +5,10 @@
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:paddingTop="3dp"
-    tools:context=".ui.RecipeStepActivity">
+    tools:context=".ui.RecipeStepActivity"
+    android:id="@+id/item_detail_container">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textingredients"
         android:scrollbars = "vertical"
@@ -19,12 +20,24 @@
         />
     <ListView
         android:id="@+id/cardStepList"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:layout_below="@+id/textingredients"
         android:layout_alignParentBottom="true"
 
         />
+
+
+
+    <FrameLayout
+        android:id="@+id/frame_exo"
+        android:layout_width="766dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true">
+
+    </FrameLayout>
+
+
 
 </RelativeLayout>

@@ -1,110 +1,191 @@
 package com.example.mukhter.bakingrecipe.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.mukhter.bakingrecipe.R;
+import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
+
+import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ExoplayerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ExoplayerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ExoplayerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    SimpleExoPlayerView playerView;
+    SimpleExoPlayer player;
+    TextView descriptiontext;
+    private boolean playWhenReady;
+    int currentWindow;
+    long playbackPosition;
+    private boolean autoPlay = false;
+    public final String VIDEO_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9cb_4-press-crumbs-in-pie-plate-creampie/4-press-crumbs-in-pie-plate-creampie.mp4";
+    RecipeCardModel.RecipeInstructionModel recipe;
+    ArrayList<RecipeCardModel.RecipeInstructionModel> recipeStepModels;
+    String videoUrl;
+    String shortdescription;
 
     public ExoplayerFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExoplayerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ExoplayerFragment newInstance(String param1, String param2) {
-        ExoplayerFragment fragment = new ExoplayerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exoplayer, container, false);
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        View view = inflater.inflate(R.layout.activity_exoplayer, container, false);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        playerView = (SimpleExoPlayerView) view.findViewById(R.id.video_view);
+        descriptiontext = (TextView) view.findViewById(R.id.description);
+        Intent intent = getActivity().getIntent();
+        RecipeCardModel.RecipeInstructionModel instructionModel = intent.getParcelableExtra("recipe");
+
+        if (instructionModel == null) {
+
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            videoUrl = instructionModel.getVideoURL();
+            shortdescription = instructionModel.getDescription();
+
+        }
+
+
+        ((TextView) view.findViewById(R.id.description)).setText(shortdescription);
+
+
+
+            initializePlayer(videoUrl);
+
+
+
+        return view;
+    }
+
+
+    void initializePlayer(String videoUrl) {
+        // create a new instance of SimpleExoPlayer
+        player = ExoPlayerFactory.newSimpleInstance(
+                new DefaultRenderersFactory(getActivity().getApplicationContext()),
+                new DefaultTrackSelector(),
+                new DefaultLoadControl());
+
+        // attach the just created player to the view responsible for displaying the media (i.e. media controls, visual feedback)
+        playerView.setPlayer(player);
+        player.setPlayWhenReady(autoPlay);
+
+        // resume playback position
+        player.seekTo(currentWindow, playbackPosition);
+if(videoUrl!=null) {
+    Uri uri = Uri.parse(videoUrl);
+    MediaSource mediaSource = buildMediaSource(uri);
+
+    // now we are ready to start playing our media files
+    player.prepare(mediaSource);
+
+}
+    }
+
+    public static MediaSource buildMediaSource(Uri uri) {
+
+        DefaultExtractorsFactory extractorSourceFactory = new DefaultExtractorsFactory();
+        DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("ua");
+
+//        ExtractorMediaSource audioSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
+
+        // this return a single mediaSource object. i.e. no next, previous buttons to play next/prev media file
+//        return new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
+
+        /*
+         * Uncomment the line below to play multiple meidiaSources in sequence aka playlist (and totally without buffering!)
+         * NOTE: you have to comment the return statement just above this comment
+         */
+//         ExtractorMediaSource videoSource1 = new ExtractorMediaSource(Uri.parse(VIDEO_1), dataSourceFactory, extractorSourceFactory, null, null);
+
+
+        return new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
+        // returns a mediaSource collection
+//          ConcatenatingMediaSource(videoSource1, audioSource, videoSource2);
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer(videoUrl);
         }
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onResume() {
+        super.onResume();
+
+        if ((Util.SDK_INT <= 23 || player == null)) {
+            initializePlayer(videoUrl);
+        }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+    }
+
+    private void releasePlayer() {
+        if (player != null) {
+            playbackPosition = player.getCurrentPosition();
+            currentWindow = player.getCurrentWindowIndex();
+            playWhenReady = player.getPlayWhenReady();
+            player.release();
+            player = null;
+        }
+    }
+
+
+    public void setArguments(Intent intent) {
     }
 }
