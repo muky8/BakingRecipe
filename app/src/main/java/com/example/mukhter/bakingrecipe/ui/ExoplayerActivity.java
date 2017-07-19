@@ -3,6 +3,7 @@ package com.example.mukhter.bakingrecipe.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,19 +46,19 @@ public class ExoplayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_exoplayer);
-        android.support.v7.app.ActionBar actionBar =  getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        ExoplayerFragment exoplayerFragment ;
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ExoplayerFragment exoplayerFragment;
         exoplayerFragment = new ExoplayerFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_exo, exoplayerFragment);
+        transaction.add(R.id.frame_exo, exoplayerFragment);
         transaction.commit();
 
 
     }
-
 
 
     @Override

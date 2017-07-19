@@ -121,4 +121,6 @@ public class RecipeStepFragment extends Fragment implements AdapterView.OnItemCl
         public void onCustomClick(int position,AdapterView<?> parent);
         // pass view as argument or whatever you want.
     }
+
+
 }

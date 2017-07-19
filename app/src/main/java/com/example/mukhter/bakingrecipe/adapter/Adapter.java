@@ -86,9 +86,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
                     intent.putExtra("videourl", recipeInstructionModel.getMvideoUrl());
 
                     context.startActivity(intent);
-                    Snackbar.make(v, "Click detected on item " + position,
-                            Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
 
 
                 }

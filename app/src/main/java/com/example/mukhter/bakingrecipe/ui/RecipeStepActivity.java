@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -74,9 +75,13 @@ if (tabletSize){
     FragmentManager fragmentManager = getSupportFragmentManager();
     ExoplayerFragment exoplayerFragment;
     exoplayerFragment = new ExoplayerFragment();
+    RecipeCardModel.RecipeInstructionModel recipeCardModel = new RecipeCardModel.RecipeInstructionModel();
+    recipeCardModel.getMvideoUrl();
+    exoplayerFragment.setRecipeClassObject(recipeCardModel);
     FragmentTransaction transaction = fragmentManager.beginTransaction();
-    transaction.add(R.id.frame_exo, exoplayerFragment);
+    transaction.replace(R.id.frame_exo, exoplayerFragment);
     transaction.commit();
+
 } else {
 
 

@@ -45,11 +45,11 @@ public class ExoplayerFragment extends Fragment {
     ArrayList<RecipeCardModel.RecipeInstructionModel> recipeStepModels;
     String videoUrl;
     String shortdescription;
+    private RecipeCardModel.RecipeInstructionModel mReciepeClass;
 
     public ExoplayerFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -76,9 +76,7 @@ public class ExoplayerFragment extends Fragment {
         ((TextView) view.findViewById(R.id.description)).setText(shortdescription);
 
 
-
-            initializePlayer(videoUrl);
-
+        initializePlayer(videoUrl);
 
 
         return view;
@@ -98,14 +96,14 @@ public class ExoplayerFragment extends Fragment {
 
         // resume playback position
         player.seekTo(currentWindow, playbackPosition);
-if(videoUrl!=null) {
-    Uri uri = Uri.parse(videoUrl);
-    MediaSource mediaSource = buildMediaSource(uri);
+        if (videoUrl != null) {
+            Uri uri = Uri.parse(videoUrl);
+            MediaSource mediaSource = buildMediaSource(uri);
 
-    // now we are ready to start playing our media files
-    player.prepare(mediaSource);
+            // now we are ready to start playing our media files
+            player.prepare(mediaSource);
 
-}
+        }
     }
 
     public static MediaSource buildMediaSource(Uri uri) {
@@ -186,6 +184,8 @@ if(videoUrl!=null) {
     }
 
 
-    public void setArguments(Intent intent) {
+    public void setRecipeClassObject(RecipeCardModel.RecipeInstructionModel reciepeClass) {
+        mReciepeClass =
+                reciepeClass;
     }
 }
