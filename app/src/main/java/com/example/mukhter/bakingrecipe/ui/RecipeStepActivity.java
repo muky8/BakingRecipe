@@ -70,18 +70,11 @@ if(savedInstanceState==null){
 
     @Override
     public void onCustomClick(int position,AdapterView<?> parent) {
-if (tabletSize){
 
-    Intent intent = new Intent(this, ExoplayerActivity.class);
-    RecipeCardModel.RecipeInstructionModel recipeInstructionModel =
-            (RecipeCardModel.RecipeInstructionModel) parent.getItemAtPosition(position);
 
-    intent.putExtra("recipe", recipeInstructionModel);
+        View detailsFrame = findViewById(R.id.frame_exo);
 
-    startActivity(intent);
-
-} else {
-
+if (detailsFrame!=null){
     FragmentManager fragmentManager = getSupportFragmentManager();
     ExoplayerFragment exoplayerFragment;
     exoplayerFragment = new ExoplayerFragment();
@@ -92,6 +85,19 @@ if (tabletSize){
     transaction.replace(R.id.frame_exo, exoplayerFragment);
     transaction.commit();
 
+
+
+
+} else {
+
+
+    Intent intent = new Intent(this, ExoplayerActivity.class);
+    RecipeCardModel.RecipeInstructionModel recipeInstructionModel =
+            (RecipeCardModel.RecipeInstructionModel) parent.getItemAtPosition(position);
+
+    intent.putExtra("recipe", recipeInstructionModel);
+
+    startActivity(intent);
 
 }
 
