@@ -2,8 +2,6 @@ package com.example.mukhter.bakingrecipe.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mukhter.bakingrecipe.R;
-import com.example.mukhter.bakingrecipe.RecipeStepFragment;
-import com.example.mukhter.bakingrecipe.ui.MainActivity;
+import com.example.mukhter.bakingrecipe.ui.RecipeStepFragment;
 import com.example.mukhter.bakingrecipe.ui.RecipeStepActivity;
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
     };
     Context context;
 
-    private boolean mTwoPane;
+ boolean mTwoPane;
 
     public Adapter(Context context, ArrayList<RecipeCardModel> recipeArrayList, ArrayList<RecipeCardModel.RecipeInstructionModel> recipestepArrayList) {
         this.recipeCardArrayList = recipeArrayList;
@@ -62,7 +60,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
 
         myHolder.retitle.setText(current.title);
 
-        holder.reimage.setImageResource(image[0]);
+        Picasso.with(context).load(current.getImage()).placeholder(image[0])
+                .error(R.drawable.errorimage)
+                .into(holder.reimage);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +71,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
 
                     FragmentManager fragmentManager = ((RecipeStepActivity) context).getSupportFragmentManager();
                     RecipeStepFragment recipeDetailsFragment;
-
                     recipeDetailsFragment = new RecipeStepFragment();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.item_detail_container, recipeDetailsFragment);
@@ -84,7 +83,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
                     intent.putExtra("quantity", recipe.getmIngredients());
                     intent.putExtra("next", recipe.getmInstructions());
                     intent.putExtra("videourl", recipeInstructionModel.getMvideoUrl());
-
                     context.startActivity(intent);
 
 

@@ -13,17 +13,22 @@ public class RecipeContract {
     public static final Uri BASE_URL = Uri.parse("content://" + AUTHORITY);
     public static final String PATH = "recipe";
 
-    private RecipeContract(){
+    private RecipeContract() {
 
     }
 
     public static class RecipeEntry implements BaseColumns {
-        public  final static Uri CONTENT_URI = BASE_URL.buildUpon().appendPath(PATH).build();
+        public final static Uri CONTENT_URI = BASE_URL.buildUpon().appendPath(PATH).build();
         public final static String TABLE_NAME = "recipes";
 
         public final static String _ID = "id";
         public final static String COLUMN_RECIPE_NAME = "recipe_name";
         public final static String INGREDIENTS_NAME = "ingredient";
+
+        public final static String QUANTITY = "quantity";
+
+        public final static String MEASURE = "measure";
+
 
     }
 }

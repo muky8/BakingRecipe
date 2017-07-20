@@ -1,4 +1,4 @@
-package com.example.mukhter.bakingrecipe;
+package com.example.mukhter.bakingrecipe.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.mukhter.bakingrecipe.R;
 import com.example.mukhter.bakingrecipe.adapter.CustomAdapter;
 import com.example.mukhter.bakingrecipe.adapter.RecipeAdapter;
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
@@ -31,21 +32,11 @@ import java.util.ArrayList;
 public class RecipeStepFragment extends Fragment implements AdapterView.OnItemClickListener {
 
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    RecyclerView recyclerStepView;
-    RecipeAdapter recipeAdapter;
     ArrayList<RecipeCardModel.RecipeInstructionModel> recipeStepModels;
     ArrayList<RecipeCardModel> recipeInstructionModels;
-    RecipeCardModel recipeCardModel;
-    String ingredient;
+
     TextView ingred;
-    ArrayList<RecipeCardModel> recipeCardArrayList = new ArrayList<>();
-    public static final String ARG_ITEM_ID = "item_id";
     private ArrayList<RecipeCardModel.RecipeStepModel> mIngredients = new ArrayList<>();
-    RecipeCardModel pop = new RecipeCardModel();
-    boolean mTwoPane;
-    Context context;
     ClickListener clickListener;
 
     public RecipeStepFragment() {
@@ -98,6 +89,19 @@ public class RecipeStepFragment extends Fragment implements AdapterView.OnItemCl
 
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        clickListener.onCustomClick(position, parent);
+
+
+    }
+
+    public interface ClickListener {
+        public void onCustomClick(int position, AdapterView<?> parent);
+        // pass view as argument or whatever you want.
+    }
+
+
+    @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
 
@@ -108,19 +112,4 @@ public class RecipeStepFragment extends Fragment implements AdapterView.OnItemCl
                     + " must implement OnHeadlineSelectedListener");
         }
     }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        clickListener.onCustomClick(position,parent);
-
-
-
-    }
-
-    public interface ClickListener {
-        public void onCustomClick(int position,AdapterView<?> parent);
-        // pass view as argument or whatever you want.
-    }
-
-
 }

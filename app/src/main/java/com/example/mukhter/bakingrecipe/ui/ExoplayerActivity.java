@@ -1,46 +1,33 @@
 package com.example.mukhter.bakingrecipe.ui;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.mukhter.bakingrecipe.R;
-import com.example.mukhter.bakingrecipe.RecipeStepFragment;
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 
 public class ExoplayerActivity extends AppCompatActivity {
-
+    SimpleExoPlayerView playerView;
+    SimpleExoPlayer player;
+    TextView descriptiontext;
+    private boolean playWhenReady;
+    int currentWindow;
+    long playbackPosition;
+    private boolean autoPlay = false;
+    public final String VIDEO_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9cb_4-press-crumbs-in-pie-plate-creampie/4-press-crumbs-in-pie-plate-creampie.mp4";
+    RecipeCardModel.RecipeInstructionModel recipe;
+    ArrayList<RecipeCardModel.RecipeInstructionModel> recipeStepModels;
+    String videoUrl;
+    String shortdescription;
+    private RecipeCardModel.RecipeInstructionModel mReciepeClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +46,7 @@ public class ExoplayerActivity extends AppCompatActivity {
 
 
     }
+
 
 
     @Override

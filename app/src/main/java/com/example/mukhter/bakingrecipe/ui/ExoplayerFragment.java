@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,25 @@ import com.example.mukhter.bakingrecipe.R;
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 
 public class ExoplayerFragment extends Fragment {
@@ -45,7 +54,8 @@ public class ExoplayerFragment extends Fragment {
     ArrayList<RecipeCardModel.RecipeInstructionModel> recipeStepModels;
     String videoUrl;
     String shortdescription;
-    private RecipeCardModel.RecipeInstructionModel mReciepeClass;
+RecipeCardModel.RecipeInstructionModel mReciepeClass = new RecipeCardModel.RecipeInstructionModel();
+   String thumbnailUrl;
 
     public ExoplayerFragment() {
         // Required empty public constructor
@@ -69,15 +79,21 @@ public class ExoplayerFragment extends Fragment {
         } else {
             videoUrl = instructionModel.getVideoURL();
             shortdescription = instructionModel.getDescription();
+            thumbnailUrl=instructionModel.getThumbnailURL();
 
         }
 
 
+
         ((TextView) view.findViewById(R.id.description)).setText(shortdescription);
 
-
-        initializePlayer(videoUrl);
-
+if(videoUrl !=null) {
+    initializePlayer(videoUrl);
+}else{
+    if(thumbnailUrl!=null&&thumbnailUrl.contains(".mp4")){
+        initializePlayer(thumbnailUrl);
+    }
+}
 
         return view;
     }
@@ -104,6 +120,7 @@ public class ExoplayerFragment extends Fragment {
             player.prepare(mediaSource);
 
         }
+
     }
 
     public static MediaSource buildMediaSource(Uri uri) {
@@ -156,6 +173,7 @@ public class ExoplayerFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
+
 
     @Override
     public void onPause() {

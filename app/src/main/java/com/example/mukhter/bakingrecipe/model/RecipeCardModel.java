@@ -104,7 +104,7 @@ public class RecipeCardModel implements Parcelable {
         String ingredient;
 
 
-        public RecipeStepModel(String quantity, String measure, String ingredient) {
+        public RecipeStepModel() {
             this.quantity = quantity;
             this.measure = measure;
             this.ingredient = ingredient;

@@ -1,16 +1,10 @@
 package com.example.mukhter.bakingrecipe.ui;
 
-import android.app.FragmentManager;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.androidnetworking.AndroidNetworking;
-import com.example.mukhter.bakingrecipe.RecipeStepFragment;
 import com.example.mukhter.bakingrecipe.adapter.Adapter;
 import com.example.mukhter.bakingrecipe.R;
 import com.example.mukhter.bakingrecipe.model.RecipeCardModel;
@@ -95,10 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
                                     JSONObject jobj2 = ingredient.getJSONObject(j);
 
+                                    bakingIngredient = new RecipeCardModel.RecipeStepModel();
                                     String measure = jobj2.getString("measure");
+                                    bakingIngredient.setMeasure(measure);
                                     String quantity = jobj2.getString("quantity");
+                                    bakingIngredient.setQuantity(quantity);
                                     String ingredientt = jobj2.getString("ingredient");
-                                    bakingIngredient = new RecipeCardModel.RecipeStepModel(quantity, measure, ingredientt);
+                                    bakingIngredient.setIngredient(ingredientt);
                                     ingredientArrayList.add(bakingIngredient);
 
 
